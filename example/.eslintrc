@@ -1,0 +1,63 @@
+{
+  "root": true,
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "amd": true,
+    "es6": true
+  },
+
+  "extends": "eslint:recommended",
+
+  "globals": {
+    "edj": true,
+    "jQuery": true,
+    "console": true
+  },
+
+  "rules": {
+    "no-console": 0,
+    "no-constant-condition": 1,
+    "no-unreachable": 1,
+
+    "complexity": [2, 10],
+    "curly": [1, "all"],
+    "eqeqeq": 1,
+    "guard-for-in": 1,
+    "no-empty-label": 2,
+    "no-floating-decimal": 2,
+    "no-iterator": 2,
+    "no-lone-blocks": 2,
+    "no-loop-func": 1,
+    "no-multi-str": 2,
+    "no-native-reassign": 2,
+    "no-octal": 2,
+    "no-octal-escape": 2,
+    "no-proto": 2,
+    "no-redeclare": 2,
+    "no-self-compare": 2,
+    "no-unused-expressions": 2,
+    "wrap-iife": [2, "any"],
+
+    "no-catch-shadow": 2,
+    "no-label-var": 2,
+    "no-shadow-restricted-names": 2,
+    "no-undef": 2,
+    "no-undef-init": 2,
+    "no-unused-vars": [1, "all"],
+    "no-use-before-define": 2,
+    "no-undefined": 2,
+
+    "camelcase": 1,
+    "new-cap": 2,
+    "no-array-constructor": 2,
+    "no-new-object": 1,
+    "no-spaced-func": 1,
+    "semi-spacing": 1,
+    "no-extra-parens": 2,
+    "semi": [1, "always"],
+    "space-return-throw-case": 2,
+    "max-nested-callbacks": [2, 8]
+  }
+}

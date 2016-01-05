@@ -1,0 +1,19 @@
+{
+  "name": "webpjs",
+  "description": "auto load webp image",
+  "id" : "webpjs",
+  "publish_url" : "",
+  "dev_url" : "",
+  "lint": {
+    "js": {
+      "engine": "eslint",
+      "config": ".eslintrc",
+      "ignore": ".eslintignore"
+    },
+    "css": {
+      "engine": "csslint",
+      "config": ".csslintrc"
+    }
+  },
+  "test": {}
+}

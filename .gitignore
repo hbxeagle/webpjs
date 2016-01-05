@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.*.swp
+.grunt
+.project
+.svn
+.tmp
+.maps
+.map
+.sass-cache
+.idea
+Thumbs.db

@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "*",
+    "gulp": "^3.6.0",
+    "gulp-babel": "*",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "*",
+    "gulp-util": "^3.0.1"
+  }
+}

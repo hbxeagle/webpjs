@@ -1,0 +1,3 @@
+script/**/*.js
+libs/**/*.js
+.tmp/**/*.js
