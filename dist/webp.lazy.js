@@ -13,9 +13,9 @@
 (function ($, window, document, undefined) {
   var $window = $(window);
 
-  var supportWebp = function supportWebp() {
+  var __supportwebp = false;
 
-    var __supportwebp = false;
+  var supportWebp = function supportWebp(callback) {
 
     (function () {
       var webp = new Image();
@@ -23,12 +23,11 @@
         __supportwebp = webp.height === 2;
         webp.onload = webp.onerror = null;
         webp = null;
+        callback();
       };
       //高度为2的一个webp图片
       webp.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
     })();
-
-    return __supportwebp;
   };
 
   $.fn.webp = function (options) {
@@ -162,7 +161,7 @@
           var original = $self.attr(settings.origSrc);
 
           // 替换webp目录和图片后缀
-          if (supportWebp) {
+          if (__supportwebp) {
             original = original.replace(settings.origDir, settings.webpDir).replace(/\.(jpg|png|jpeg|gif)$/ig, '.webp');
           }
 
@@ -222,7 +221,9 @@
 
     /* Force initial check if images should appear. */
     $(document).ready(function () {
-      update();
+      supportWebp(function () {
+        update();
+      });
     });
 
     return this;
@@ -239,7 +240,6 @@
     } else {
       fold = $(settings.container).offset().top + $(settings.container).height();
     }
-    console.log('belowthefold', fold, $(element).offset().top - settings.threshold);
     return fold <= $(element).offset().top - settings.threshold;
   };
 
@@ -260,12 +260,9 @@
 
     if (settings.container === undefined || settings.container === window) {
       fold = $window.scrollTop();
-      console.log(1);
     } else {
       fold = $(settings.container).offset().top;
-      console.log(2);
     }
-    console.log($(element).attr('lsrc'), fold, $(element).offset().top + settings.threshold + $(element).height());
     return fold >= $(element).offset().top + settings.threshold + $(element).height();
   };
 
