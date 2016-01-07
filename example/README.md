@@ -1,3 +1,1 @@
-# webpjs
-
-webpjs example
+#webp js example

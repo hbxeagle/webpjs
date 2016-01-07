@@ -1,7 +1,5 @@
 "use strict";
 
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
 /**
    * webp插件
    * 调用方式1：
@@ -53,18 +51,60 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
       webpDir: "webps"
     };
 
-    var update = function update() {
+    /**
+     * 先对elements进行处理，找到所以包含 origSrc 的子元素。
+     */
+    function adjust() {
+
+      var _elements = undefined;
+
+      elements.each(function () {
+        var $this = $(this),
+            _tmp = undefined;
+        if (settings.skip_invisible && !$this.is(":visible")) {
+          return;
+        }
+
+        var original = $this.attr(settings.origSrc);
+
+        // 如果当前对象没有origSrc属性，同时当前对象不是图片节点，
+        // 则查找子节点中有origSrc属性的节点，进行webp处理
+        if (!original) {
+          _tmp = $this.find("[" + settings.origSrc + "*=" + settings.origDir + "]");
+        } else {
+          _tmp = $this;
+        }
+
+        if (_elements && _elements.length > 0) {
+          if ($.merge) {
+            // jquery merge
+            _elements = $.merge(_elements, _tmp);
+          } else {
+            // zepto merge
+            _elements.concat(_tmp);
+          }
+        } else {
+          _elements = _tmp;
+        }
+      });
+
+      elements = _elements;
+    }
+
+    adjust();
+
+    function update() {
 
       elements.each(function () {
         $(this).trigger("appear");
       });
-    };
+    }
 
     if (options) {
       $.extend(settings, options);
     }
 
-    this.each(function () {
+    elements.each(function () {
       var self = this;
       var $self = $(self);
 
@@ -74,18 +114,9 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
       $self.one("appear", function () {
 
         if (!this.loaded) {
-          var _ret = (function () {
+          (function () {
 
             var original = $self.attr(settings.origSrc);
-
-            // 如果当前对象没有origSrc属性，同时当前对象不是图片节点，
-            // 则查找子节点中有origSrc属性的节点，进行webp处理
-            if (!original && !$self.is("img")) {
-              $self.find("[" + settings.origSrc + "*=" + settings.origDir + "]").webp(settings);
-              return {
-                v: true
-              };
-            }
 
             // 替换webp目录和图片后缀
             if (supportWebp) {
@@ -111,8 +142,6 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
               elements = $(temp);
             }).attr("src", original);
           })();
-
-          if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
         }
       });
     });

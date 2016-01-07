@@ -3,7 +3,7 @@
 /*!
  * Webp Lazy Load - jQuery plugin for lazy loading webp images
  *
- * 修改自 jquery.lazy.js
+ * 修改自 jquery.lazy.js，删除了一些zepto不支持的代码。
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -31,7 +31,8 @@
     return __supportwebp;
   };
 
-  $.fn.lazyload = function (options) {
+  $.fn.webp = function (options) {
+
     var elements = this;
     var $container;
     var settings = {
@@ -49,6 +50,47 @@
       placeholder: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
     };
 
+    /**
+     * 先对elements进行处理，找到所以包含 origSrc 的子元素。
+     */
+    function adjust() {
+
+      var _elements;
+
+      elements.each(function () {
+        var $this = $(this),
+            _tmp;
+        if (settings.skip_invisible && !$this.is(":visible")) {
+          return;
+        }
+        var original = $this.attr(settings.origSrc);
+
+        // 如果当前对象没有origSrc属性，同时当前对象不是图片节点，
+        // 则查找子节点中有origSrc属性的节点，进行webp处理
+        if (!original) {
+          _tmp = $this.find("[" + settings.origSrc + "*=" + settings.origDir + "]");
+        } else {
+          _tmp = $this;
+        }
+
+        if (_elements && _elements.length > 0) {
+          if ($.merge) {
+            // jquery merge
+            _elements = $.merge(_elements, _tmp);
+          } else {
+            // zepto merge
+            _elements.concat(_tmp);
+          }
+        } else {
+          _elements = _tmp;
+        }
+      });
+
+      elements = _elements;
+    }
+
+    adjust();
+
     function update() {
       var counter = 0;
 
@@ -57,6 +99,7 @@
         if (settings.skip_invisible && !$this.is(":visible")) {
           return;
         }
+
         if ($.abovethetop(this, settings) || $.leftofbegin(this, settings)) {
           /* Nothing. */
         } else if (!$.belowthefold(this, settings) && !$.rightoffold(this, settings)) {
@@ -95,7 +138,7 @@
       });
     }
 
-    this.each(function () {
+    elements.each(function () {
       var self = this;
       var $self = $(self);
 
@@ -117,13 +160,6 @@
           }
 
           var original = $self.attr(settings.origSrc);
-
-          // 如果当前对象没有origSrc属性，同时当前对象不是图片节点，
-          // 则查找子节点中有origSrc属性的节点，进行webp处理
-          if (!original && !$self.is("img")) {
-            $self.find("[" + settings.origSrc + "*=" + settings.origDir + "]").webp(settings);
-            return true;
-          }
 
           // 替换webp目录和图片后缀
           if (supportWebp) {
@@ -203,7 +239,7 @@
     } else {
       fold = $(settings.container).offset().top + $(settings.container).height();
     }
-
+    console.log('belowthefold', fold, $(element).offset().top - settings.threshold);
     return fold <= $(element).offset().top - settings.threshold;
   };
 
@@ -224,10 +260,12 @@
 
     if (settings.container === undefined || settings.container === window) {
       fold = $window.scrollTop();
+      console.log(1);
     } else {
       fold = $(settings.container).offset().top;
+      console.log(2);
     }
-
+    console.log($(element).attr('lsrc'), fold, $(element).offset().top + settings.threshold + $(element).height());
     return fold >= $(element).offset().top + settings.threshold + $(element).height();
   };
 
@@ -247,57 +285,9 @@
     return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) && !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
   };
 
-  /* Custom selectors for your convenience.   */
-  /* Use as $("img:below-the-fold").something() or */
-  /* $("img").filter(":below-the-fold").something() which is faster */
-
-  $.extend($.expr[":"], {
-    "below-the-fold": function belowTheFold(a) {
-      return $.belowthefold(a, {
-        threshold: 0
-      });
-    },
-    "above-the-top": function aboveTheTop(a) {
-      return !$.belowthefold(a, {
-        threshold: 0
-      });
-    },
-    "right-of-screen": function rightOfScreen(a) {
-      return $.rightoffold(a, {
-        threshold: 0
-      });
-    },
-    "left-of-screen": function leftOfScreen(a) {
-      return !$.rightoffold(a, {
-        threshold: 0
-      });
-    },
-    "in-viewport": function inViewport(a) {
-      return $.inviewport(a, {
-        threshold: 0
-      });
-    },
-    /* Maintain BC for couple of versions. */
-    "above-the-fold": function aboveTheFold(a) {
-      return !$.belowthefold(a, {
-        threshold: 0
-      });
-    },
-    "right-of-fold": function rightOfFold(a) {
-      return $.rightoffold(a, {
-        threshold: 0
-      });
-    },
-    "left-of-fold": function leftOfFold(a) {
-      return !$.rightoffold(a, {
-        threshold: 0
-      });
-    }
-  });
-
   $.extend($, {
     webp: function webp(options) {
       $(document).webp(options);
     }
   });
-})(jQuery, window, document);
+})($, window, document);

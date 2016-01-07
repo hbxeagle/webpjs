@@ -4,29 +4,18 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "autoprefixer-core": "^3.1.1",
     "browser-sync": "^1.5.4",
     "del": "^1.1.1",
     "gulp": "^3.6.0",
-    "gulp-babel": "*",
-    "gulp-coffee": "*",
     "gulp-concat": "*",
-    "gulp-if": "^2.0.0",
-    "gulp-ignore": "^2.0.1",
     "gulp-imagemin": "^1.0.1",
-    "gulp-jade": "^0.8.0",
-    "gulp-less": "*",
-    "gulp-livereload": "^2.0.0",
     "gulp-load-plugins": "^0.7.0",
-    "gulp-order": "^1.1.1",
-    "gulp-postcss": "^2.0.0",
     "gulp-plumber": "^1.0.1",
-    "gulp-sourcemaps": "*",
-    "gulp-util": "^3.0.1",
     "gulp-uglify": "*",
-    "babel-preset-es2015": "*",
-    "merge-stream": "^1.0.0",
+    "gulp-util": "^3.0.1",
     "imagemin-pngquant": "^4.2.0",
-    "imagemin-webp": "^3.1.0"
+    "imagemin-webp": "^3.1.0",
+    "merge-stream": "^1.0.0",
+    "vinyl-buffer": "^1.0.0"
   }
 }
