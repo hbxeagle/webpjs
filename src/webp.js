@@ -23,11 +23,19 @@
 
   let __supportwebp = false;
 
+  let __checked = false;
+
   let supportWebp = function(callback) {
 
+    if (__checked) {
+      callback();
+      return;
+    }
+
     (function() {
-      var webp = new Image();
+      let webp = new Image();
       webp.onload = webp.onerror = function() {
+        __checked = true;
         __supportwebp = webp.height === 2;
         webp.onload = webp.onerror = null;
         webp = null;

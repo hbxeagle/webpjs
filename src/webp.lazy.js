@@ -15,11 +15,19 @@
 
   var __supportwebp = false;
 
+  var __checked = false;
+
   var supportWebp = function(callback) {
+
+    if (__checked) {
+      callback();
+      return;
+    }
 
     (function() {
       var webp = new Image();
       webp.onload = webp.onerror = function() {
+        __checked = true;
         __supportwebp = webp.height === 2;
         webp.onload = webp.onerror = null;
         webp = null;
