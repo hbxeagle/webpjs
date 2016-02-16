@@ -57,7 +57,7 @@ gulp.task('webp', function() {
     .pipe(imageminWebp({
       quality: 50
     })())
-    .pipe(gulp.dest('webps'))
+    .pipe(gulp.dest('images'))
     .pipe(browserSync.reload({
       stream: true
     }));

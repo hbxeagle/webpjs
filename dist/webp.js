@@ -54,8 +54,8 @@
 
     var settings = {
       origSrc: "lsrc",
-      origDir: "images",
-      webpDir: "webps"
+      origDir: "",
+      webpDir: ""
     };
 
     /**
@@ -109,6 +109,9 @@
 
     if (options) {
       $.extend(settings, options);
+    }
+    if (options.origDir && !options.webpDir) {
+      throw new Error('option webpDir undefined!');
     }
 
     elements.each(function () {

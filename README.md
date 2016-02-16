@@ -5,6 +5,10 @@
 另一个是有lazy效果的webp.lazy.js（基于jquery.lazy.js修改）。<br/>
 可视情况选择不同的版本。
 
+## 2016.02.16更新
+1、修改目录替换规则，当不配置orgDir和webpDir时，不替换目录，只提换后缀。<br/>
+2、修改example中的gulp文件，将webp文件生成至image同目录。
+
 ## jquery/zepto webp插件
 
 ### 调用方式1：
@@ -17,14 +21,18 @@
 
 ### 调用方式2:
 <code>
-  $('.p3').webp({
-    origSrc: "lsrc", // 用于存放图片原文件地址（png,jpg,jpeg,gif)的标签属性
-    origDir: "images",// 图片原文件根目录，会替换为webp的根目录
-    webpDir: "webps"// 图片原webp文件目录
-  });
+  $('.p3').webp();
 </code>
 查找处理.page.p3 这个dom节点下所有有 lsrc 属性， 且lsrc属性的目录中包含 images 目录的标签。<br/>
 处理过程同上。<br/>
+
+### options
+#### origSrc 
+用于存放图片原文件地址（png,jpg,jpeg,gif)的标签属性，默认为 lsrc
+#### origDir 
+图片原文件根目录，会替换为webp的根目录，支持自定义配置，默认为空，即不需要替换目录，只替换后缀
+#### webpDir 
+图片原webp文件目录，支持自定义配置，默认为空，即不需要替换目录，只替换后缀
 
 ## 注意1
 由于采用lsrc的形式，所以img标签不要设定src属性，防止重复加载。<br/>

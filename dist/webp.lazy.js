@@ -49,8 +49,8 @@
       effect: "show",
       container: window,
       origSrc: "lsrc",
-      origDir: "images",
-      webpDir: "webps",
+      origDir: "",
+      webpDir: "",
       skip_invisible: false,
       appear: null,
       load: null,
@@ -133,6 +133,10 @@
       }
 
       $.extend(settings, options);
+    }
+
+    if (options.origDir && !options.webpDir) {
+      throw new Error('option webpDir undefined!');
     }
 
     /* Cache container as jQuery as object. */

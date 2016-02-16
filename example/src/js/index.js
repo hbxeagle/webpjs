@@ -11,8 +11,8 @@
    * 调用方式2:
    * $('.p3').webp({
    *   origSrc: "lsrc", // 用于存放图片原文件地址（png,jpg,jpeg,gif)的标签属性
-   *   origDir: "images",// 图片原文件根目录，会替换为webp的根目录
-   *   webpDir: "webps"// 图片原webp文件目录
+   *   origDir: "images",// 图片原文件根目录，会替换为webp的根目录，支持自定义配置，默认为空，即不需要替换目录，只替换后缀
+   *   webpDir: "images"// 图片原webp文件目录，支持自定义配置，默认为空，即不需要替换目录，只替换后缀
    * });
    * 查找处理 .page.p3 这个dom节点下所有有 lsrc 属性，且lsrc属性的目录中包含 images 目录的标签。
    * 处理过程同上。
